@@ -146,7 +146,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
 @misc{lrcm2025,
   title = {Listen to Rhythm, Choose Movements: Autoregressive Multimodal Dance Generation via Diffusion and Mamba with Decoupled Dance Dataset},
   author = {Oran Duan and Yinghua Shen and Yingzhu Lv and Luyang Jie and Yaxin Liu and Qiong Wu},
-  year = {2025},
+  year = {2026},
   eprint = {2601.03323},
   archivePrefix = {arXiv},
   primaryClass = {cs.CV}
