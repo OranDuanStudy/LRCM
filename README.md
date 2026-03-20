@@ -9,9 +9,17 @@
 
 [[Paper]](https://arxiv.org/abs/2601.03323) · [[GitHub]](https://github.com/OranDuanStudy/LRCM) · [[Project Page]](https://oranduanstudy.github.io/LRCM)
 
----
-
 **LRCM** (Listen to Rhythm, Choose Movements) is a multimodal-guided diffusion framework for dance motion generation that simultaneously leverages **audio rhythm** and **hierarchical text descriptions** (global style + local movements) for high-quality, controllable dance synthesis.
+
+## Visual Overview
+
+### Overview
+
+![Overview](docs/graphs/fig1.png)
+
+### Architecture
+
+![Architecture](docs/graphs/fig3.png)
 
 ## Overview
 
@@ -32,33 +40,12 @@ Current dance motion generation methods suffer from **coarse semantic control** 
 ## Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/OranDuanStudy/LRCM.git
 cd LRCM
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-### Requirements
-
-- Python 3.10+
-- CUDA 12.x
-- PyTorch 2.4+
-- 4× RTX 4090 (24GB) for training
-
-### Key Dependencies
-
-```
-pytorch-lightning==1.9.5
-mamba-ssm
-causal-conv1d
-openai-clip
-librosa
-scipy
-scikit-learn
-torch>=2.4.0
-```
+**Requirements:** Python 3.10+, CUDA 12.x, PyTorch 2.4+, 4× RTX 4090 (24GB)
 
 ---
 
@@ -70,23 +57,21 @@ torch>=2.4.0
 │   ├── LightningModel.py      # Main Lightning model
 │   ├── BaseModel.py
 │   ├── nn.py                  # Neural network building blocks
-│   ├── mamba/                 # Motion Temporal Mamba Module
-│   │   └── mambamotion.py
-│   ├── lgtm/                  # Text encoders and diffusion components
+│   ├── mamba/mambamotion.py  # Motion Temporal Mamba Module
+│   ├── lgtm/                  # Text encoders & diffusion components
 │   │   ├── conformer.py
 │   │   ├── text_encoder.py
 │   │   ├── motion_diffusion.py
 │   │   └── utils/
-│   └── transformer/           # Transformer components
-│       └── tisa_transformer.py
+│   └── transformer/tisa_transformer.py
 ├── utils/
 │   ├── motion_dataset.py      # Dataset loaders
 │   └── hparams.py             # Hyperparameter management
 ├── pymo/                      # Motion preprocessing (BVH, rotations)
 ├── hparams/
 │   ├── LRCM_stage1.yaml       # Phase 1: Global text + Audio
-│   ├── LRCM_stage2.yaml       # Phase 2: Add Local text
-│   └── LRCM_stage3.yaml       # Phase 3: Enable MTMM
+│   ├── LRCM_stage2.yaml        # Phase 2: Add Local text
+│   └── LRCM_stage3.yaml        # Phase 3: Enable MTMM
 ├── train.py                   # Training script
 ├── synthesize.py              # Inference script
 └── requirements.txt
@@ -95,8 +80,6 @@ torch>=2.4.0
 ---
 
 ## Inference
-
-### Quick Generation
 
 ```bash
 python synthesize.py \
@@ -107,17 +90,13 @@ python synthesize.py \
     --dest_dir results/
 ```
 
-### Batch Generation
-
+**Batch generation:**
 ```bash
-# Full text prompts
 bash experiments/LRCM_manbadance_duainput_memory.sh
-
-# Global/Local text from JSON
 bash experiments/LRCM_duainput_memory_json.sh
 ```
 
-### Arguments
+**Arguments:**
 
 | Argument | Description | Default |
 |----------|-------------|---------|
@@ -127,17 +106,13 @@ bash experiments/LRCM_duainput_memory_json.sh
 | `-t, --input_text` | Text description (global style) | Required |
 | `-r, --seed` | Random seed | 42 |
 | `--dest_dir` | Output directory | "results" |
-| `-g, --gf` | Guidance factor(s) | None |
-| `-k, --gpu` | GPU device | "cuda:0" |
 | `-m, --segment-frames` | Segment frame length | 300 |
 
 ---
 
 ## Training
 
-### Three-Phase Training Strategy
-
-**Phase 1**: Global text + Audio (Foundation)
+**Phase 1 — Foundation (Global text + Audio):**
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
     --dataset_root data/Multimodal_Text_dataset_updating \
@@ -145,7 +120,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
     --ckpt_file None
 ```
 
-**Phase 2**: Add Local text (Fine-tuning)
+**Phase 2 — Fine-tuning (Add Local text):**
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
     --dataset_root data/Multimodal_Text_dataset_updating \
@@ -153,7 +128,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
     --ckpt_file ./pretrained_models/dance_LRCM_stage1.ckpt
 ```
 
-**Phase 3**: Enable MTMM (Autoregressive)
+**Phase 3 — Autoregressive (Enable MTMM):**
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
     --dataset_root data/Multimodal_Text_dataset_updating \
@@ -161,27 +136,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
     --ckpt_file ./pretrained_models/dance_LRCM_stage2.ckpt
 ```
 
-### Training Details
-
-| Parameter | Value |
-|-----------|-------|
-| Optimizer | Adam (weight decay: 1.0e-4) |
-| Diffusion steps | 200 (DDPM sampler) |
-| Residual blocks | 20 |
-| Model size | ~316M parameters |
-| Noise injection | 0.05 probability per modality |
-
----
-
-## Visual Overview
-
-### Overview
-
-![Overview](docs/graphs/fig1.png)
-
-### Architecture
-
-![Architecture](docs/graphs/fig3.png)
+**Training details:** Adam optimizer (weight decay: 1.0e-4), 200 DDPM steps, 20 residual blocks, ~316M parameters.
 
 ---
 
