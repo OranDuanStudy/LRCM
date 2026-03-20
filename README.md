@@ -70,12 +70,35 @@ pip install -r requirements.txt
 ├── pymo/                      # Motion preprocessing (BVH, rotations)
 ├── hparams/
 │   ├── LRCM_stage1.yaml       # Phase 1: Global text + Audio
-│   ├── LRCM_stage2.yaml        # Phase 2: Add Local text
-│   └── LRCM_stage3.yaml        # Phase 3: Enable MTMM
+│   ├── LRCM_stage2.yaml       # Phase 2: Add Local text
+│   └── LRCM_stage3.yaml       # Phase 3: Enable MTMM
 ├── train.py                   # Training script
-├── synthesize.py              # Inference script
+├── synthesize.py               # Inference script
 └── requirements.txt
 ```
+
+---
+
+## Data & Pretrained Models
+
+> **Note:** The text annotations dataset below is **text-only** (global + local text descriptions). You must also download the [Motorica Dance dataset](https://github.com/simonalexanderson/MotoricaDanceDataset/) to obtain the raw motion capture data and audio files for training.
+
+### Enhanced Text Annotations
+
+[[Download (Google Drive)]](https://drive.google.com/drive/folders/1R8jy70f006SOLqkKloBvVFIYFMCDpLSQ?usp=drive_link)
+
+Enhanced text annotations with hierarchical global and local descriptions for 7 dance genres. Place the downloaded files under `data/Multimodal_Text_dataset_updating/`.
+
+### Pretrained Checkpoints
+
+[[Download (Google Drive)]](https://drive.google.com/drive/folders/1q9pfX-6buS2xvGWiNBE9Y9EHUPvWYIKe?usp=drive_link)
+
+Two model versions are provided:
+
+| Checkpoint | Description | Usage |
+|------------|-------------|-------|
+| `NAR` version | Non-autoregressive model (Phase 2) | `--checkpoints NAR/dance_LRCM_stage2.ckpt` |
+| `AR` version | Autoregressive model (Phase 3) | `--checkpoints AR/dance_LRCM_stage3.ckpt` |
 
 ---
 
@@ -123,7 +146,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
 **Phase 2 — Fine-tuning (Add Local text):**
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
-    --dataset_root data/Multimodal_Text_dataset_updating \
+    --dataset_root data/Multimodel_Text_dataset_updating \
     --hparams_file ./hparams/LRCM_stage2.yaml \
     --ckpt_file ./pretrained_models/dance_LRCM_stage1.ckpt
 ```
