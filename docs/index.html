@@ -26,7 +26,6 @@
   nav ul { list-style: none; display: flex; gap: 28px; }
   nav ul li a { color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
 
-  /* HERO */
   .hero { padding: 90px 0 70px; text-align: center; position: relative; overflow: hidden; }
   .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%); pointer-events: none; }
   .hero::after { content: ''; position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%); pointer-events: none; }
@@ -47,12 +46,10 @@
   .sep { color: var(--text-muted); }
   .institutions { font-size: 0.83rem; color: var(--text-muted); margin-top: 4px; }
 
-  /* ABSTRACT */
   .abstract p { font-size: 1.05rem; line-height: 2; color: var(--text-secondary); max-width: 840px; margin: 0 auto 14px; }
   .abstract p:last-child { margin-bottom: 0; }
   .abstract strong { color: var(--text-primary); }
 
-  /* METHOD */
   .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
   .method-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: border-color 0.2s, transform 0.2s; }
   .method-card:hover { border-color: var(--accent); transform: translateY(-2px); }
@@ -61,7 +58,6 @@
   .method-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
   .tag { display: inline-block; font-size: 0.72rem; font-family: var(--font-mono); background: rgba(108,99,255,0.12); color: var(--accent); padding: 2px 8px; border-radius: 4px; margin-top: 10px; margin-right: 4px; }
 
-  /* FIGURES */
   .fig-row { display: flex; align-items: flex-start; gap: 0; margin-bottom: 24px; }
   .fig-row:last-child { margin-bottom: 0; }
   .fig-label-col { width: 120px; flex-shrink: 0; padding-top: 12px; }
@@ -78,13 +74,12 @@
   .carousel::-webkit-scrollbar { height: 4px; }
   .carousel::-webkit-scrollbar-track { background: transparent; }
   .carousel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .vc { flex: 0 0 auto; scroll-snap-align: start; width: 360px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; }
+  .vc { flex: 0 0 auto; scroll-snap-align: start; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; }
   .vc:hover { border-color: var(--accent); }
-  .vc video { width: 100%; height: 280px; object-fit: contain; display: block; background: #000; }
+  .vc video { width: 100%; height: auto; display: block; background: #000; }
   .vc-cap { padding: 10px 14px; font-size: 0.82rem; color: var(--text-secondary); border-top: 1px solid var(--border); }
   .vc-cap strong { color: var(--text-primary); }
 
-  /* CITATION */
   .bibtex-block { background: #0d0d14; border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px; font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.9; color: #c0c0d8; overflow-x: auto; white-space: pre; }
 
   footer { border-top: 1px solid var(--border); padding: 36px 0; text-align: center; color: var(--text-muted); font-size: 0.83rem; }
@@ -96,8 +91,6 @@
     nav ul { display: none; }
     .hero { padding: 60px 0 50px; }
     .fig-label-col { display: none; }
-    .vc { width: 280px; }
-    .vc video { height: 220px; }
   }
 </style>
 </head>
@@ -147,9 +140,9 @@
 <section id="abstract">
   <div class="container">
     <div class="abstract">
-      <p>Advances in generative models and sequence learning have greatly promoted research in dance motion generation, yet challenges remain in fine-grained semantic control and long-sequence coherence.</p>
-      <p>We introduce <strong>LRCM (Listen to Rhythm, Choose Movements)</strong>, a multimodal-guided diffusion framework that simultaneously leverages <strong>audio rhythm</strong> and <strong>hierarchical text descriptions</strong> (global style + local movements) for high-quality, controllable dance synthesis across 7 dance genres.</p>
-      <p>Key innovations include: (1) a <strong>Decoupled Multimodal Dance Dataset</strong> paradigm separating motion, audio, and text for fine-grained alignment; (2) a <strong>Heterogeneous Multimodal-Guided Diffusion Architecture</strong> with Audio-latent Conformer and Text-latent Cross-Conformer; and (3) a <strong>Motion Temporal Mamba Module (MTMM)</strong> for efficient autoregressive long-sequence generation.</p>
+      <p>Advances in generative models and sequence learning have greatly promoted research in dance motion generation, yet current methods still suffer from coarse semantic control and poor coherence in long sequences.</p>
+      <p>In this work, we present <strong>LRCM (Listen to Rhythm, Choose Movements)</strong>, a multimodal-guided diffusion framework supporting both diverse input modalities and autoregressive dance motion generation. We explore a feature-decoupling paradigm for dance datasets and generalize it to the <strong>Motorica Dance dataset</strong>, separating motion capture data, audio rhythm, and professionally annotated global and local text descriptions.</p>
+      <p>Our diffusion architecture integrates an <strong>audio–latent Conformer</strong> and a <strong>text–latent Cross-Conformer</strong>, and incorporates a <strong>Motion Temporal Mamba Module (MTMM)</strong> to enable smooth, long-duration autoregressive synthesis. Experimental results indicate that LRCM delivers strong performance in both functional capability and quantitative metrics, demonstrating notable potential in multimodal input scenarios and extended-sequence generation.</p>
     </div>
   </div>
 </section>
@@ -161,20 +154,20 @@
     <div class="method-grid">
       <div class="method-card">
         <div class="method-num">1</div>
-        <h3>Decoupled Multimodal Dance Dataset</h3>
-        <p>Feature-decoupling paradigm separating motion capture data, audio rhythm features, and professionally annotated text descriptions (global style + local movement) for fine-grained semantic alignment across 7 dance genres.</p>
-        <div><span class="tag">Feature Decoupling</span><span class="tag">7 Genres</span><span class="tag">325 mins</span></div>
+        <h3>Decoupled Multimodal Dance Dataset Paradigm</h3>
+        <p>We propose a fine-grained semantic decoupling paradigm for multimodal dance datasets, formalizing the separation of dance motion, audio rhythm, and professionally annotated textual descriptions into hierarchical global style and local movement levels, instantiated on the Motorica Dance dataset.</p>
+        <div><span class="tag">Feature Decoupling</span><span class="tag">Motorica Dataset</span><span class="tag">Global + Local Text</span></div>
       </div>
       <div class="method-card">
         <div class="method-num">2</div>
-        <h3>Heterogeneous Multimodal-Guided Diffusion</h3>
-        <p>Stacked denoising residual blocks with Audio-latent Conformer for rhythmic cues and Text-latent Cross-Conformer for fine-grained semantic understanding from global and local text conditioning.</p>
-        <div><span class="tag">Audio Conformer</span><span class="tag">Text Cross-Conformer</span><span class="tag">DDPM Diffusion</span></div>
+        <h3>Heterogeneous Multimodal-Guided Diffusion Architecture</h3>
+        <p>Audio–latent Conformers capture persistent rhythmic cues from audio; text–latent Cross-Conformers incorporate fine-grained semantics from global and local textual inputs. A jerk-based loss function jointly maintains rhythmic smoothness and semantic consistency.</p>
+        <div><span class="tag">Audio–latent Conformer</span><span class="tag">Text–latent Cross-Conformer</span><span class="tag">Jerk-based Loss</span></div>
       </div>
       <div class="method-card">
         <div class="method-num">3</div>
-        <h3>Motion Temporal Mamba Module</h3>
-        <p>State space model-based autoregressive extension enabling efficient long-sequence generation via bidirectional Mamba scan for smooth temporal transitions across segments.</p>
+        <h3>Motion Temporal Mamba Module (MTMM)</h3>
+        <p>State space model-based autoregressive extension of the diffusion framework for long-sequence generation. MTMM enables smooth, long-duration synthesis with linear complexity and hardware-friendly design via bidirectional Mamba scan.</p>
         <div><span class="tag">Mamba SSM</span><span class="tag">Bidirectional Scan</span><span class="tag">Long Sequences</span></div>
       </div>
     </div>
@@ -230,6 +223,60 @@
         <div class="vc">
           <video controls preload="metadata"><source src="result/generated/fullprompts/kthstreet_gPO_sFM_cAll_d02_mPO_ch01_bombom_001_audio.mp4" type="video/mp4"></video>
           <div class="vc-cap"><strong>Popping</strong> — Full text prompt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-group">
+      <div class="video-group-label">Local-Clip Generation (Global + Local Text)</div>
+      <div class="carousel">
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/charleston_charlestonstep-1.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Charleston</strong> — Local clip 1</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/charleston_charlestonstep-2.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Charleston</strong> — Local clip 2</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/hiphop_runningman-1.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Hip-hop</strong> — Local clip 1</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/hiphop_runningman-2.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Hip-hop</strong> — Local clip 2</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/jazz_clap-1.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Jazz</strong> — Local clip 1</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/jazz_clap-2.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Jazz</strong> — Local clip 2</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/krump_armswing-1.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Krump</strong> — Local clip 1</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/krump_armswing-2.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Krump</strong> — Local clip 2</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/locking_scoobot-1.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Locking</strong> — Local clip 1</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/locking_scoobot-2.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Locking</strong> — Local clip 2</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/popping_fresno-1.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Popping</strong> — Local clip 1</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/local_clip/popping_fresno-2.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Popping</strong> — Local clip 2</div>
         </div>
       </div>
     </div>
