@@ -74,11 +74,11 @@
   .carousel::-webkit-scrollbar { height: 4px; }
   .carousel::-webkit-scrollbar-track { background: transparent; }
   .carousel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .vc { flex: 0 0 auto; scroll-snap-align: start; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; }
+  .vc { flex: 0 0 auto; scroll-snap-align: start; width: 320px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; }
   .vc:hover { border-color: var(--accent); }
-  .vc video { width: 100%; height: auto; display: block; background: #000; }
-  .vc-cap { padding: 10px 14px; font-size: 0.82rem; color: var(--text-secondary); border-top: 1px solid var(--border); }
-  .vc-cap strong { color: var(--text-primary); }
+  .vc video { width: 100%; height: 180px; object-fit: contain; display: block; background: #000; }
+  .vc-cap { padding: 10px 14px; font-size: 0.8rem; color: var(--text-secondary); border-top: 1px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .vc-cap strong { color: var(--text-primary); font-weight: 600; }
 
   .bibtex-block { background: #0d0d14; border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px; font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.9; color: #c0c0d8; overflow-x: auto; white-space: pre; }
 
@@ -110,7 +110,7 @@
 
 <section class="hero">
   <div class="container">
-    <div class="hero-badge"><span class="dot"></span>arXiv:2601.03323 &nbsp;&middot;&nbsp; 2025</div>
+    <div class="hero-badge"><span class="dot"></span>arXiv:2601.03323 &nbsp;&middot;&nbsp; 12 pages &nbsp;&middot;&nbsp; 13 figures &nbsp;&middot;&nbsp; Jan 2026</div>
     <h1>LRCM</h1>
     <h2>Listen to Rhythm, Choose Movements</h2>
     <div class="hero-links">
@@ -348,7 +348,7 @@
       <a href="https://arxiv.org/abs/2601.03323" target="_blank">arXiv</a>
       <a href="https://github.com/OranDuanStudy/LRCM" target="_blank">GitHub</a>
     </div>
-    <p>LRCM &copy; 2025 &mdash; Communication University of China &middot; Zhipu AI</p>
+    <p>LRCM &copy; 2026 &mdash; Communication University of China &middot; Zhipu AI</p>
   </div>
 </footer>
 
