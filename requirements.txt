@@ -1,0 +1,33 @@
+numpy
+scipy
+librosa
+torchmetrics
+pytorch-lightning==1.9.5
+pandas
+matplotlib
+scikit-learn
+mpi4py
+joblib
+smplx
+transforms3d
+x-transformers
+ftfy
+axial_positional_embedding
+einops
+entmax
+lightning-bolts
+loguru
+madgrad
+mido
+jsmin
+optuna
+diffusers
+torchinfo
+Cpython
+madmom
+opencv-python
+causal-conv1d @ https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.5.2/causal_conv1d-1.5.2%2Bcu12torch2.4cxx11abiTRUE-cp312-cp312-linux_x86_64.whl
+mamba-ssm @ https://github.com/state-spaces/mamba/releases/download/v2.2.5/mamba_ssm-2.2.5%2Bcu12torch2.4cxx11abiTRUE-cp312-cp312-linux_x86_64.whl
+openai-clip
+memory_profiler
+Pillow

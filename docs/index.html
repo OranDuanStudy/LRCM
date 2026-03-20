@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LRCM: Listen to Rhythm, Choose Movements</title>
+<style>
+  :root {
+    --bg-primary: #0a0a0f; --bg-secondary: #111118; --bg-card: #16161f; --bg-card-hover: #1c1c28;
+    --accent: #6c63ff; --accent2: #00d4aa; --accent-gradient: linear-gradient(135deg, #6c63ff, #00d4aa);
+    --text-primary: #e8e8f0; --text-secondary: #8888aa; --text-muted: #55556a;
+    --border: #2a2a3a; --radius: 12px; --radius-sm: 8px;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent2); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; }
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0 24px; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  nav .container { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  nav .logo { font-weight: 700; font-size: 1.1rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav ul li a { color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
+
+  /* ── HERO ── */
+  .hero { padding: 90px 0 70px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%); pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50px; padding: 6px 16px; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 24px; }
+  .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); box-shadow: 0 0 8px var(--accent2); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+  .hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 14px; background: linear-gradient(135deg, #fff 40%, #a0a0c0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero h2 { font-size: clamp(1rem, 2.5vw, 1.35rem); font-weight: 400; color: var(--text-secondary); margin-bottom: 10px; }
+  .hero-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: var(--radius); font-size: 0.88rem; font-weight: 600; transition: all 0.2s; }
+  .btn-primary { background: var(--accent-gradient); color: #fff; box-shadow: 0 4px 20px rgba(108,99,255,0.35); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(108,99,255,0.5); color: #fff; }
+  .btn-outline { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--accent); background: rgba(108,99,255,0.08); color: var(--text-primary); }
+  .authors { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 6px; font-size: 0.92rem; }
+  .authors a { color: var(--text-secondary); }
+  .authors a:hover { color: var(--accent); }
+  .separator { color: var(--text-muted); }
+  .institutions { font-size: 0.83rem; color: var(--text-muted); margin-top: 4px; }
+
+  /* ── ABSTRACT ── */
+  .abstract p { font-size: 1.05rem; line-height: 2; color: var(--text-secondary); max-width: 840px; margin: 0 auto 14px; }
+  .abstract p:last-child { margin-bottom: 0; }
+  .abstract strong { color: var(--text-primary); }
+
+  /* ── METHOD ── */
+  .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .method-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: border-color 0.2s, transform 0.2s; }
+  .method-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .method-num { display: inline-flex; width: 30px; height: 30px; background: var(--accent-gradient); border-radius: 8px; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 700; margin-bottom: 14px; }
+  .method-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+  .method-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
+  .tag { display: inline-block; font-size: 0.72rem; font-family: var(--font-mono); background: rgba(108,99,255,0.12); color: var(--accent); padding: 2px 8px; border-radius: 4px; margin-top: 10px; margin-right: 4px; }
+
+  /* ── FIGURES ── */
+  .figures-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .fig-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .fig-wrap img { max-width: 100%; height: auto; border-radius: var(--radius-sm); }
+  .fig-label { display: block; margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); }
+
+  /* ── VIDEO CAROUSELS ── */
+  .video-group { margin-bottom: 40px; }
+  .video-group:last-child { margin-bottom: 0; }
+  .video-group-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); margin-bottom: 14px; }
+  .carousel { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--border) transparent; padding-bottom: 8px; }
+  .carousel::-webkit-scrollbar { height: 4px; }
+  .carousel::-webkit-scrollbar-track { background: transparent; }
+  .carousel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .vc { flex: 0 0 auto; scroll-snap-align: start; width: 420px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; }
+  .vc:hover { border-color: var(--accent); }
+  .vc video { width: 100%; height: 240px; object-fit: contain; background: #000; display: block; }
+  .vc-cap { padding: 10px 14px; font-size: 0.82rem; color: var(--text-secondary); border-top: 1px solid var(--border); }
+  .vc-cap strong { color: var(--text-primary); }
+
+  /* ── CITATION ── */
+  .bibtex-block { background: #0d0d14; border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px; font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.9; color: #c0c0d8; overflow-x: auto; white-space: pre; }
+
+  footer { border-top: 1px solid var(--border); padding: 36px 0; text-align: center; color: var(--text-muted); font-size: 0.83rem; }
+  footer .footer-links { display: flex; gap: 18px; justify-content: center; margin-bottom: 12px; }
+  footer .footer-links a { color: var(--text-secondary); }
+  footer .footer-links a:hover { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .hero { padding: 60px 0 50px; }
+    .figures-row { grid-template-columns: 1fr; }
+    .vc { width: 300px; }
+    .vc video { height: 170px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="logo">LRCM</div>
+    <ul>
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#cite">Citation</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="dot"></span>arXiv:2601.03323 &nbsp;&middot;&nbsp; 2025</div>
+    <h1>LRCM</h1>
+    <h2>Listen to Rhythm, Choose Movements</h2>
+    <div class="hero-links">
+      <a href="https://arxiv.org/abs/2601.03323" class="btn btn-primary" target="_blank">&#128196; arXiv Paper</a>
+      <a href="https://github.com/OranDuanStudy/LRCM" class="btn btn-outline" target="_blank">&#9889; GitHub</a>
+      <a href="#videos" class="btn btn-outline">&#127916; Demo Videos</a>
+    </div>
+    <div class="authors">
+      <a href="mailto:oranduan@cuc.edu.cn">Oran Duan</a>
+      <span class="separator">&middot;</span>
+      <a href="mailto:shenwan@cuc.edu.cn">Yinghua Shen</a>
+      <span class="separator">&middot;</span>
+      <a href="mailto:bamboo_lv@mails.cuc.edu.cn">Yingzhu Lv</a>
+      <span class="separator">&middot;</span>
+      <a href="mailto:luyang.jie@aminer.cn">Luyang Jie</a>
+      <span class="separator">&middot;</span>
+      <a href="mailto:yaxin.liu@aminer.cn">Yaxin Liu</a>
+      <span class="separator">&middot;</span>
+      <a href="mailto:qiong.wu@aminer.cn">Qiong Wu</a>
+    </div>
+    <div class="institutions">Communication University of China &nbsp;&middot;&nbsp; Zhipu AI</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="abstract">
+  <div class="container">
+    <div class="abstract">
+      <p>Advances in generative models and sequence learning have greatly promoted research in dance motion generation, yet challenges remain in fine-grained semantic control and long-sequence coherence.</p>
+      <p>We introduce <strong>LRCM (Listen to Rhythm, Choose Movements)</strong>, a multimodal-guided diffusion framework that simultaneously leverages <strong>audio rhythm</strong> and <strong>hierarchical text descriptions</strong> (global style + local movements) for high-quality, controllable dance synthesis across 7 dance genres.</p>
+      <p>Key innovations include: (1) a <strong>Decoupled Multimodal Dance Dataset</strong> paradigm separating motion, audio, and text for fine-grained alignment; (2) a <strong>Heterogeneous Multimodal-Guided Diffusion Architecture</strong> with Audio-latent Conformer and Text-latent Cross-Conformer; and (3) a <strong>Motion Temporal Mamba Module (MTMM)</strong> for efficient autoregressive long-sequence generation.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="method">
+  <div class="container">
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="method-num">1</div>
+        <h3>Decoupled Multimodal Dance Dataset</h3>
+        <p>Feature-decoupling paradigm separating motion capture data, audio rhythm features, and professionally annotated text descriptions (global style + local movement) for fine-grained semantic alignment across 7 dance genres.</p>
+        <div><span class="tag">Feature Decoupling</span><span class="tag">7 Genres</span><span class="tag">325 mins</span></div>
+      </div>
+      <div class="method-card">
+        <div class="method-num">2</div>
+        <h3>Heterogeneous Multimodal-Guided Diffusion</h3>
+        <p>Stacked denoising residual blocks with Audio-latent Conformer for rhythmic cues and Text-latent Cross-Conformer for fine-grained semantic understanding from global and local text conditioning.</p>
+        <div><span class="tag">Audio Conformer</span><span class="tag">Text Cross-Conformer</span><span class="tag">DDPM Diffusion</span></div>
+      </div>
+      <div class="method-card">
+        <div class="method-num">3</div>
+        <h3>Motion Temporal Mamba Module</h3>
+        <p>State space model-based autoregressive extension enabling efficient long-sequence generation via bidirectional Mamba scan for smooth temporal transitions across segments.</p>
+        <div><span class="tag">Mamba SSM</span><span class="tag">Bidirectional Scan</span><span class="tag">Long Sequences</span></div>
+      </div>
+    </div>
+
+    <div class="figures-row" style="margin-top:40px;">
+      <div class="fig-wrap">
+        <img src="graphs/fig1.png" alt="Figure 1">
+        <span class="fig-label">Fig. 1: LRCM Framework Overview</span>
+      </div>
+      <div class="fig-wrap">
+        <img src="graphs/fig3.png" alt="Figure 3">
+        <span class="fig-label">Fig. 3: Architecture Details</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="videos">
+  <div class="container">
+    <div class="video-group">
+      <div class="video-group-label">Full-Prompts Generation</div>
+      <div class="carousel">
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/fullprompts/kthjazz_gJZ_sFM_cAll_d02_mJZ_ch01_bennygoodmansugarfootstomp_003_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Jazz</strong> — Full text prompt</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/fullprompts/kthstreet_gLH_sFM_cAll_d02_mLH_ch01_lala_001_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Hip-hop</strong> — Full text prompt</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/fullprompts/kthstreet_gKR_sFM_cAll_d01_mKR_ch01_chargedcableupyour_001_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Krump</strong> — Full text prompt</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/fullprompts/kthstreet_gLO_sFM_cAll_d02_mLO_ch01_arethafranklinrocksteady_002_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Locking</strong> — Full text prompt</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/fullprompts/kthjazz_gCH_sFM_cAll_d02_mCH_ch01_whitemanpaulandhisorchestraloisiana_006_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Charleston</strong> — Full text prompt</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/fullprompts/kthstreet_gPO_sFM_cAll_d02_mPO_ch01_bombom_001_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Popping</strong> — Full text prompt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-group">
+      <div class="video-group-label">Style-Mix Generation</div>
+      <div class="carousel">
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/style_mix/kthjazz_gJZ_sFM_cAll_d02_mJZ_ch01_bennygoodmansugarfootstomp_003_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Jazz</strong> — Style mixing</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/style_mix/kthstreet_gLH_sFM_cAll_d02_mLH_ch01_lala_001_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Hip-hop</strong> — Style mixing</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/style_mix/kthstreet_gKR_sFM_cAll_d01_mKR_ch01_chargedcableupyour_001_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Krump</strong> — Style mixing</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/style_mix/kthstreet_gLO_sFM_cAll_d02_mLO_ch01_arethafranklinrocksteady_002_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Locking</strong> — Style mixing</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/style_mix/kthjazz_gCH_sFM_cAll_d02_mCH_ch01_whitemanpaulandhisorchestraloisiana_006_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Charleston</strong> — Style mixing</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/generated/style_mix/kthstreet_gPO_sFM_cAll_d02_mPO_ch01_bombom_001_audio.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Popping</strong> — Style mixing</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-group">
+      <div class="video-group-label">Rendered 3D Videos</div>
+      <div class="carousel">
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/render/krump.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Krump</strong> — 3D rendered</div>
+        </div>
+        <div class="vc">
+          <video controls preload="metadata"><source src="result/render/locking.mp4" type="video/mp4"></video>
+          <div class="vc-cap"><strong>Locking</strong> — 3D rendered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="cite">
+  <div class="container">
+    <div class="bibtex-block">@misc{lrcm2025,
+  title = {Listen to Rhythm, Choose Movements: Autoregressive Multimodal Dance Generation via Diffusion and Mamba with Decoupled Dance Dataset},
+  author = {Oran Duan and Yinghua Shen and Yingzhu Lv and Luyang Jie and Yaxin Liu and Qiong Wu},
+  year = {2025},
+  eprint = {2601.03323},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CV}
+}</div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://arxiv.org/abs/2601.03323" target="_blank">arXiv</a>
+      <a href="https://github.com/OranDuanStudy/LRCM" target="_blank">GitHub</a>
+    </div>
+    <p>LRCM &copy; 2025 &mdash; Communication University of China &middot; Zhipu AI</p>
+  </div>
+</footer>
+
+</body>
+</html>

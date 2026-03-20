@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Checkpoints
+*.ckpt
+*.pt
+*.pth
+*.ckpt.zip
+
+# Data
+data/
+ckpt/
+*.pkl
+*.bvh
+*.npy
+*.npz
+
+# Logs
+logs/
+wandb/
+lightning_logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large generated content
+result/generated/
+result/*.log
+
+# Jupyter
+*.ipynb
+.ipynb_checkpoints/
+
+# Temp
+*.tmp
+*.cache

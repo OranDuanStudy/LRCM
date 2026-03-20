@@ -1,0 +1,135 @@
+training_stage: 1
+Data:
+  segment_length: 200
+  style_index: [1]
+  trim_edges: 200
+  styles_file: dance_styles_kth.txt
+  traindata_filename: dance_train_files_kth.txt
+  testdata_filename: dance_test_files_kth.txt
+  input_modality: audio29_30fps
+  output_modality: expmap_30fps
+  input_feats_file: ch0_spec_beatact_features.txt  # ch0_spec_beatact_features.txt
+  datapipe_filename: data_pipe.expmap_30fps.sav
+  timestretch_prob: 0.2
+  timestretch_factor: 0.1
+  
+  text_folder: json
+  # Relative position within the dataset
+  text_modality: text_30fps
+  clip_model_name: ViT-B/32
+  clip_embedding_dim: 512
+  train_stage: global
+  #local&global
+  memory_length: -1
+  use_memory_dataset: false
+
+
+Diffusion:
+  name: dual #tisa|conv
+  residual_layers: 20 # 20
+  residual_channels: 256 #256
+  embedding_dim: 512 #512
+  args:
+    tisa:
+      num_blocks: 1
+      num_heads: 8 # 8
+      activation: relu # relu
+      dropout: 0.1
+      norm: LN
+      d_ff: 1024
+      seq_len: 200 # 150        
+      use_preln: true  # false
+      bias: false
+      dilation_cycle: [0,1,2]
+    dual:
+      num_blocks: 2
+      num_heads: 8 # 8
+      activation: relu # relu
+      dropout: 0.1
+      norm: LN
+      d_ff: 1024
+      seq_len: 200 # 150        
+      use_preln: true  # false
+      tisa_num_kernels: 21
+      bias: false
+      dilation_cycle: [0,1,2]
+
+      clip_mid_dim: 256
+
+    conv:
+      dilation_cycle_length: 10
+
+  unconditional: false
+  noise_schedule_start: 0.005
+  noise_schedule_end: 0.1
+  n_noise_schedule: 200
+
+DualMambaMotionMemory:
+  use_DMMM: false
+
+
+para_freeze:
+  kv_memory: false
+  dual: false
+
+Infer:
+  eps: 1
+  seq_len: 25
+Optim:    # Learning rate scheduler and optimizer
+  Schedule:
+    args:
+      lambda:
+        val: 10
+      multiplicative:
+        val: 10
+      step:
+        gamma: 0.99995
+        step_size: 10
+      cos_warm:
+        T_0: 1000
+      constant:
+        factor: 1.0
+        total_iters: 0
+    name: step #step
+    warm_up: 3000
+  args:
+    adam:
+      betas:
+      - 0.9
+      - 0.999
+      eps: 1.0e-08
+    rmsprop:
+      eps: 1.0e-08
+    sgd:
+      momentum: 0.9
+  name: adam #adam
+
+
+Validation:
+  render: true
+  apply_dropout: false
+  render_every_n_epochs: 1
+  max_render_clips: 10
+  gen_synth_ctrl: false
+lr: 5.0e-05
+# 0.0006//5.0e-07//5.0e-05
+batch_size: 12
+num_dataloader_workers: 16  # Number of available CPU cores
+pruning_amount: 0.0
+quantization: false
+Trainer:
+    accelerator: gpu
+    devices: 1
+    accumulate_grad_batches: 1
+    default_root_dir: ./results/training/stage1
+    gradient_clip_val: 25
+    deterministic: false
+    fast_dev_run: false
+    max_epochs: 10
+    min_epochs: 1
+    precision: 32
+    #val_check_interval: 1
+    #ckpt_path: null
+    #resume_from_checkpoint: ./results/training/dance_try/lightning_logs/version_0/checkpoints/mamba_first/mamba_dance.ckpt # Path for mamba_block first time  #null \ PATH.ckpt Resume from checkpoint
+    #ckpt_path: ./results/training/dance_LDA/lightning_logs/version_1/checkpoints/epoch=0-step=27037.ckpt
+    #ckpt_path(resume_from_checkpoint will be removed in future versions)
