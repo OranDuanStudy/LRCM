@@ -21,7 +21,7 @@
 
 ![Architecture](docs/graphs/fig3.png)
 
-## Overview
+## Method Highlights
 
 Current dance motion generation methods suffer from **coarse semantic control** and **poor coherence in long sequences**. LRCM addresses these through:
 
