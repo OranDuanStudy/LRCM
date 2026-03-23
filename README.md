@@ -175,3 +175,9 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
   primaryClass = {cs.CV}
 }
 ```
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
