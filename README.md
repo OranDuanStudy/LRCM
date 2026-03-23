@@ -1,17 +1,19 @@
-# LRCM: Listen to Rhythm, Choose Movements
+# 💃 LRCM: Listen to Rhythm, Choose Movements
 
 ![arXiv](https://img.shields.io/badge/arXiv-2601.03323-red?style=flat-square&logo=arxiv)
 ![GitHub](https://img.shields.io/badge/GitHub-OranDuanStudy/LRCM-blue?style=flat-square&logo=github)
 ![Python](https://img.shields.io/badge/Python-3.10+-green?style=flat-square&logo=python)
-![License](https://img.shields.io/badge/License-Research-yellow?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-**Listen to Rhythm, Choose Movements: Autoregressive Multimodal Dance Generation via Diffusion and Mamba with Decoupled Dance Dataset**
+> **Listen to Rhythm, Choose Movements: Autoregressive Multimodal Dance Generation via Diffusion and Mamba with Decoupled Dance Dataset**
 
-[[Paper]](https://arxiv.org/abs/2601.03323) · [[GitHub]](https://github.com/OranDuanStudy/LRCM) · [[Project Page]](https://oranduanstudy.github.io/LRCM)
+[[📄 Paper]](https://arxiv.org/abs/2601.03323) · [[⚡ GitHub]](https://github.com/OranDuanStudy/LRCM) · [[🎬 Project Page]](https://oranduanstudy.github.io/LRCM)
 
-**LRCM** (Listen to Rhythm, Choose Movements) is a multimodal-guided diffusion framework for dance motion generation that simultaneously leverages **audio rhythm** and **hierarchical text descriptions** (global style + local movements) for high-quality, controllable dance synthesis.
+**LRCM** is a multimodal-guided diffusion framework for dance motion generation that simultaneously leverages **audio rhythm 🎵** and **hierarchical text descriptions 📝** (global style + local movements) for high-quality, controllable dance synthesis.
 
-## Visual Overview
+---
+
+## 🖼️ Visual Overview
 
 ### Overview
 
@@ -21,23 +23,25 @@
 
 ![Architecture](docs/graphs/fig3.png)
 
-## Method Highlights
+---
+
+## 💡 Method Highlights
 
 Current dance motion generation methods suffer from **coarse semantic control** and **poor coherence in long sequences**. LRCM addresses these through:
 
-1. **Decoupled Multimodal Dance Dataset Paradigm** — Fine-grained semantic decoupling of motion, audio, and text
-2. **Heterogeneous Multimodal-Guided Diffusion Architecture** — Audio-latent Conformer + Text-latent Cross-Conformer
-3. **Motion Temporal Mamba Module (MTMM)** — State space model-based autoregressive extension for long-sequence generation
+1. 🧩 **Decoupled Multimodal Dance Dataset Paradigm** — Fine-grained semantic decoupling of motion, audio, and text
+2. 🎛️ **Heterogeneous Multimodal-Guided Diffusion Architecture** — Audio-latent Conformer + Text-latent Cross-Conformer
+3. 🔄 **Motion Temporal Mamba Module (MTMM)** — State space model-based autoregressive extension for long-sequence generation
 
-### Key Features
+### ✨ Key Features
 
-- **Dual-modality conditioning**: Audio rhythm + Text descriptions (global + local)
-- **Autoregressive generation**: Efficient long-sequence synthesis via Mamba SSM
-- **7 dance genres**: Hip-hop, Jazz, Krump, Popping, Locking, Charleston, Tap
+- 🎵 **Dual-modality conditioning**: Audio rhythm + Text descriptions (global + local)
+- ⏩ **Autoregressive generation**: Efficient long-sequence synthesis via Mamba SSM
+- 💃 **7 dance genres**: Hip-hop, Jazz, Krump, Popping, Locking, Charleston, Tap
 
 ---
 
-## Installation
+## 🛠️ Installation
 
 ```bash
 git clone https://github.com/OranDuanStudy/LRCM.git
@@ -49,7 +53,7 @@ pip install -r requirements.txt
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 .
@@ -79,19 +83,19 @@ pip install -r requirements.txt
 
 ---
 
-## Data & Pretrained Models
+## 📥 Data & Pretrained Models
 
 > **Note:** The text annotations dataset below is **text-only** (global + local text descriptions). You must also download the [Motorica Dance dataset](https://github.com/simonalexanderson/MotoricaDanceDataset/) to obtain the raw motion capture data and audio files for training.
 
-### Enhanced Text Annotations
+### 📝 Enhanced Text Annotations
 
-[[Download (Google Drive)]](https://drive.google.com/drive/folders/1R8jy70f006SOLqkKloBvVFIYFMCDpLSQ?usp=drive_link)
+[[📥 Download (Google Drive)]](https://drive.google.com/drive/folders/1R8jy70f006SOLqkKloBvVFIYFMCDpLSQ?usp=drive_link)
 
 Enhanced text annotations with hierarchical global and local descriptions for 7 dance genres. Place the downloaded files under `data/Multimodal_Text_dataset_updating/`.
 
-### Pretrained Checkpoints
+### 🧠 Pretrained Checkpoints
 
-[[Download (Google Drive)]](https://drive.google.com/drive/folders/1q9pfX-6buS2xvGWiNBE9Y9EHUPvWYIKe?usp=drive_link)
+[[📥 Download (Google Drive)]](https://drive.google.com/drive/folders/1q9pfX-6buS2xvGWiNBE9Y9EHUPvWYIKe?usp=drive_link)
 
 Two model versions are provided:
 
@@ -102,7 +106,7 @@ Two model versions are provided:
 
 ---
 
-## Inference
+## 🚀 Inference
 
 ```bash
 python synthesize.py \
@@ -133,7 +137,7 @@ bash experiments/LRCM_duainput_memory_json.sh
 
 ---
 
-## Training
+## 🏋️ Training
 
 **Phase 1 — Foundation (Global text + Audio):**
 ```bash
@@ -146,7 +150,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
 **Phase 2 — Fine-tuning (Add Local text):**
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
-    --dataset_root data/Multimodel_Text_dataset_updating \
+    --dataset_root data/Multimodal_Text_dataset_updating \
     --hparams_file ./hparams/LRCM_stage2.yaml \
     --ckpt_file ./pretrained_models/dance_LRCM_stage1.ckpt
 ```
@@ -163,7 +167,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
 
 ---
 
-## Citation
+## 📄 Citation
 
 ```bibtex
 @misc{lrcm2026,
@@ -178,6 +182,6 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4 python train.py \
 
 ---
 
-## License
+## 📜 License
 
 This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
