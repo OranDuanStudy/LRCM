@@ -98,7 +98,7 @@
   .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; }
   .video-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
   .video-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
-  .video-card video { width: 100%; display: block; object-fit: contain; background: #000; }
+  .video-card video { width: 100%; display: block; aspect-ratio: 1/1; object-fit: cover; background: #000; }
   .video-caption { padding: 14px 18px; font-size: 0.88rem; color: var(--text-secondary); border-top: 1px solid var(--border); }
   .video-caption strong { color: var(--text-primary); }
   code { font-family: var(--font-mono); background: var(--bg-card); padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
