@@ -26,25 +26,28 @@
   nav ul { list-style: none; display: flex; gap: 28px; }
   nav ul li a { color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
 
-  .hero { padding: 90px 0 70px; text-align: center; position: relative; overflow: hidden; }
+  .hero { padding: 90px 0 80px; text-align: center; position: relative; overflow: hidden; }
   .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%); pointer-events: none; }
   .hero::after { content: ''; position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%); pointer-events: none; }
-  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50px; padding: 6px 16px; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 24px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50px; padding: 6px 16px; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 28px; }
   .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); box-shadow: 0 0 8px var(--accent2); animation: pulse 2s infinite; }
+  .hero-badge strong { color: var(--accent); font-weight: 700; }
   @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
-  .hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 14px; background: linear-gradient(135deg, #fff 40%, #a0a0c0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero h2 { font-size: clamp(1rem, 2.5vw, 1.35rem); font-weight: 400; color: var(--text-secondary); margin-bottom: 10px; }
-  .hero-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+  .hero h1 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; background: linear-gradient(135deg, #fff 40%, #a0a0c0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+  .hero h2 { font-size: clamp(0.9rem, 1.8vw, 1.1rem); font-weight: 400; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+  .hero-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: var(--radius); font-size: 0.88rem; font-weight: 600; transition: all 0.2s; }
   .btn-primary { background: var(--accent-gradient); color: #fff; box-shadow: 0 4px 20px rgba(108,99,255,0.35); }
   .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(108,99,255,0.5); color: #fff; }
   .btn-outline { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
   .btn-outline:hover { border-color: var(--accent); background: rgba(108,99,255,0.08); color: var(--text-primary); }
-  .authors { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 6px; font-size: 0.92rem; }
-  .authors a { color: var(--text-secondary); }
+  .hero-meta { margin-top: 0; }
+  .authors { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; font-size: 1rem; line-height: 2; }
+  .authors a { color: var(--text-primary); font-weight: 500; }
   .authors a:hover { color: var(--accent); }
-  .sep { color: var(--text-muted); }
-  .institutions { font-size: 0.83rem; color: var(--text-muted); margin-top: 4px; }
+  .sep { color: var(--text-muted); font-weight: 400; }
+  .institutions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+  .inst-tag { font-size: 0.82rem; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border); border-radius: 50px; padding: 4px 14px; }
 
   .abstract p { font-size: 1.05rem; line-height: 2; color: var(--text-secondary); max-width: 840px; margin: 0 auto 14px; }
   .abstract p:last-child { margin-bottom: 0; }
@@ -111,28 +114,33 @@
 
 <section class="hero">
   <div class="container">
-    <div class="hero-badge"><span class="dot"></span>arXiv:2601.03323 &nbsp;&middot;&nbsp; Jan 2026</div>
-    <h1>LRCM</h1>
-    <h2>Listen to Rhythm, Choose Movements</h2>
+    <div class="hero-badge"><span class="dot"></span>arXiv:2601.03323 &nbsp;&middot;&nbsp; Jan 2026 &nbsp;&middot;&nbsp; <strong>LRCM</strong></div>
+    <h1>Listen to Rhythm, Choose Movements</h1>
+    <h2>Autoregressive Multimodal Dance Generation via Diffusion and Mamba<br>with Decoupled Dance Dataset</h2>
     <div class="hero-links">
-      <a href="https://arxiv.org/abs/2601.03323" class="btn btn-primary" target="_blank">&#128196; arXiv Paper</a>
+      <a href="https://arxiv.org/abs/2601.03323" class="btn btn-outline" target="_blank">&#128196; Paper</a>
       <a href="https://github.com/OranDuanStudy/LRCM" class="btn btn-outline" target="_blank">&#9889; GitHub</a>
       <a href="#videos" class="btn btn-outline">&#127916; Demo Videos</a>
     </div>
-    <div class="authors">
-      <a href="mailto:oranduan@cuc.edu.cn">Oran Duan</a>
-      <span class="sep">&middot;</span>
-      <a href="mailto:shenwan@cuc.edu.cn">Yinghua Shen</a>
-      <span class="sep">&middot;</span>
-      <a href="mailto:bamboo_lv@mails.cuc.edu.cn">Yingzhu Lv</a>
-      <span class="sep">&middot;</span>
-      <a href="mailto:luyang.jie@aminer.cn">Luyang Jie</a>
-      <span class="sep">&middot;</span>
-      <a href="mailto:yaxin.liu@aminer.cn">Yaxin Liu</a>
-      <span class="sep">&middot;</span>
-      <a href="mailto:qiong.wu@aminer.cn">Qiong Wu</a>
+    <div class="hero-meta">
+      <div class="authors">
+        <a href="mailto:oranduan@cuc.edu.cn">Oran Duan<sup>1*</sup></a>
+        <span class="sep">&middot;</span>
+        <a href="mailto:shenwan@cuc.edu.cn">Yinghua Shen<sup>1</sup></a>
+        <span class="sep">&middot;</span>
+        <a href="mailto:bamboo_lv@mails.cuc.edu.cn">Yingzhu Lv<sup>1</sup></a>
+        <span class="sep">&middot;</span>
+        <a href="mailto:luyang.jie@aminer.cn">Luyang Jie<sup>2</sup></a>
+        <span class="sep">&middot;</span>
+        <a href="mailto:yaxin.liu@aminer.cn">Yaxin Liu<sup>2</sup></a>
+        <span class="sep">&middot;</span>
+        <a href="mailto:qiong.wu@aminer.cn">Qiong Wu<sup>2</sup></a>
+      </div>
+      <div class="institutions">
+        <span class="inst-tag"><sup>1</sup> Communication University of China</span>
+        <span class="inst-tag"><sup>2</sup> Zhipu AI</span>
+      </div>
     </div>
-    <div class="institutions">Communication University of China &nbsp;&middot;&nbsp; Zhipu AI</div>
   </div>
 </section>
 
